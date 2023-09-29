@@ -1,0 +1,43 @@
+<% let img = ["carosel 1.png", "carosel 2.png"]; %>
+<div class="container_body">
+    <div class="carosel">
+        <img src="/images/<%= img[0] %>" alt="">
+    </div>
+    <div class="blog_title_container">
+        <h1 class="blog_title">BLOG</h1>
+    </div>
+    <div class="blogs_container">
+        <div class="all_blog_title">
+            <h3>All Blogs</h3>
+        </div>
+        <div class="blog_choice">
+            <select name="category" class="select_cat_btn">
+                <option value="" disabled selected>Select Category</option>
+                <option value="">React native</option>
+                <option value="">javascript</option>
+                <option value="">react ja</option>
+            </select>
+            <div class="search_container">
+                <input type="search" placeholder="search blogs ...">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                </svg>
+            </div>
+            <button class="add_blog_btn">
+                +
+            </button>
+        </div>
+    </div>
+    <div class="blog_list_container">
+        <% for (let i = 0; i < 6; i++) { %>
+            <div class="blog_cart">
+                <img src="/images/img-<%= i + 1%>.png" alt="">
+                <h4>What ever what happen dont im gonna be</h4>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim magni, necessitatibus, molestias, 
+                    dolore voluptas eius perspiciatis nesciunt beatae fugit.
+                </p>
+            </div>
+        <% } %>
+    </div>
+</div>
