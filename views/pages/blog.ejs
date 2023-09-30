@@ -1,1 +1,37 @@
-<h2>Blog</h2>
+<main>
+    <div class="add_blog_title">
+        <h2>ADD BLOG</h2>
+    </div>
+    <a href="javascript:history.back()" class="back">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+        </svg>
+        <p>Back</p>
+    </a>
+    <div class="main_container">
+        <div>
+            <img src="/images/addformimg.png" alt="">
+        </div>
+        <div class="form_container">
+            <form action="">
+                <div>
+                    <label for="title">Title</label> <br>
+                    <input type="text" name="title" id="title" placeholder="Title">
+                </div>
+                <div>
+                    <label for="description">Description</label> <br>
+                    <textarea name="description" id="description" cols="30" rows="5" placeholder="Description..."></textarea>
+                </div>
+                <div>
+                    <label for="title">Image</label> <br>
+                    <input type="file" name="image" id="image">
+                </div>
+                <div class="add_btn">
+                    <button class="button-34">
+                        Add blog
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>

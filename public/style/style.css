@@ -18,7 +18,6 @@
     width: 100%;
     height: 5px;
 }
-
 .container {
     width: 95%;
     margin: auto;
@@ -39,6 +38,22 @@ header {
 }
 .logo img {
     width: 100%;
+}
+.avatar {
+    padding: 1rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+}
+.avatar img {
+    border-radius: 50%;
+    border: 2px solid #4AC8D5;
+    cursor: pointer;
+}
+.avatar img:hover {
+    border-width: 3px;
+    transform: scale(.95, .95);
+    transition: all .2s ease-in-out;
 }
 .nav_bar ul {
     display: flex;
@@ -164,6 +179,77 @@ footer {
     border-radius: 14px;
     padding: 10px 20px;
     margin: 10px 0;
+}
+.add_blog_title {
+    font-size: 30px;
+    text-align: center;
+    margin: 2rem 0;
+}
+.back {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    text-decoration: none;
+    color: black;
+    width: fit-content;
+    font-weight: 700;
+    padding-left: 10px;
+}
+.main_container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+    background: #EAE9E9;
+    margin: 1rem;
+    padding: 2rem 0;
+    border-radius: 18px;
+    height: 70vh;
+}
+.main_container .form_container {
+    width: 80%;
+    height: 100%;
+}
+.main_container .form_container form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    height: 100%;
+}
+.main_container .form_container input,
+.main_container .form_container textarea {
+    width: 80%;
+    border: 1px solid #ccc;
+    border-radius: 18px;
+    padding: 10px;
+    outline: none;
+}
+.main_container .form_container input:focus,
+.main_container .form_container textarea {
+    border-width: 2px;
+    border-color: #4AC8D5;
+}
+.main_container .form_container .add_btn {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+}
+
+.button-34 {
+    background: #4AC8D5;
+    border-radius: 999px;
+    box-shadow: #4AC8D5 0 10px 20px -10px;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-weight: 700;
+    outline: 0 solid transparent;
+    padding: 8px 20px;
+    user-select: none;
+    border: 0;
+}
+.button-34:hover {
+    background-color: #3a9faa;
+    transition: all .4s ease-in-out;
 }
 
 @media (min-width : 840px) {
