@@ -1,1 +1,29 @@
-<h1>category</h1>
+<main>
+    <div class="add_blog_title">
+        <h2>ADD Category</h2>
+    </div>
+    <a href="javascript:history.back()" class="back">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+        </svg>
+        <p>Back</p>
+    </a>
+    <div class="main_container" style="height: 50vh;">
+        <div class="blog_img">
+            <img src="/images/addformimg.png" alt="">
+        </div>
+        <div class="form_container">
+            <form action="/saveblog" method="POST" id="my-form">
+                <div>
+                    <label for="cat_name">Category Name</label> <br>
+                    <input type="text" name="category_name" id="cat_name" placeholder="Category Name">
+                </div>
+                <div class="add_btn">
+                    <button class="button-34">
+                        Add Category
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
