@@ -1,0 +1,31 @@
+<main>
+    <div class="add_blog_title">
+        <h2>Update BLOG</h2>
+    </div>
+    <div class="main_container">
+        <div class="blog_img" width="100%">
+            <img src="/images/updateBlog.png" alt="" width="300px">
+        </div>
+        <div class="form_container">
+            <form action="/saveUpdateBlog/<%= blog[0].id %>" method="POST" enctype="multipart/form-data" id="my-form">
+                <div>
+                    <label for="title">Title</label> <br>
+                    <input type="text" name="title" value="<%= blog[0].title %>" id="title" placeholder="Title">
+                </div>
+                <div>
+                    <label for="description">Description</label> <br>
+                    <textarea name="description" id="description" cols="30" rows="5" placeholder="Description..."><%= blog[0].description %></textarea>
+                </div>
+                <div>
+                    <label for="title">Image</label> <br>
+                    <input type="file" name="image" id="image">
+                </div>
+                <div class="add_btn">
+                    <button class="button-34">
+                        Update blog
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>

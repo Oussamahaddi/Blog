@@ -9,11 +9,11 @@
         <p>Back</p>
     </a>
     <div class="main_container">
-        <div>
+        <div class="blog_img">
             <img src="/images/addformimg.png" alt="">
         </div>
         <div class="form_container">
-            <form action="">
+            <form action="/blog/saveblog" method="POST" enctype="multipart/form-data" id="my-form">
                 <div>
                     <label for="title">Title</label> <br>
                     <input type="text" name="title" id="title" placeholder="Title">
@@ -25,6 +25,15 @@
                 <div>
                     <label for="title">Image</label> <br>
                     <input type="file" name="image" id="image">
+                </div>
+                <div class="select_category">
+                    <label for="cat">Select Category</label>
+                    <select name="category" id="cat" class="select_cat_btn" multiple>
+                        <!-- <option value="" disabled selected>Select Category</option> -->
+                        <% category.forEach(ele => { %>
+                            <option value="<%= ele.id %>"><%= ele.name_category %></option>
+                        <% }) %>
+                    </select>
                 </div>
                 <div class="add_btn">
                     <button class="button-34">

@@ -1,0 +1,28 @@
+
+<div class="singleBlog">
+    <div class="singleBlog_container">
+        <div class="singleBlog_img" style="width: 100%;">
+            <img src="/storage/<%= singleBlog[0].blog_image %>" alt="" width="60%">
+        </div>
+        <div class="singleBlog_information">
+            <h2><%= singleBlog[0].title %></h2>
+            <p>
+                <%= singleBlog[0].description %>
+            </p>
+            <% if (blogCategories.length > 0) { %>
+                <div class="list_category">
+                    <strong>Categories : </strong>
+                    <ul>
+                        <% blogCategories.forEach(cat => { %>
+                            <a href="#"><li><%= cat.name_category %></li></a>
+                        <% }) %>
+                    </ul>
+                </div>
+            <% } %>
+            <div class="singleBlog_btn">
+                <a href="/updateBlog/<%= singleBlog[0].id %>"><button>Update</button></a>
+                <a href="/deleteBlog/<%= singleBlog[0].id %>"><button>Delete</button></a>
+            </div>
+        </div>
+    </div>
+</div>
