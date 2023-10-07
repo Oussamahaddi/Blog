@@ -222,7 +222,6 @@ main {
     margin: 1rem;
     padding: 2rem 0;
     border-radius: 18px;
-    height: 85vh;
     position: relative;
     overflow: hidden;
 }
@@ -319,11 +318,8 @@ main {
     padding: 16px 22px 17px 20px;
     display: flex;
     align-items: center;
-    color: white;
-}
-
-.alert-success {
-    background: #12c99b;
+    justify-content: space-between;
+    z-index: 10;
 }
 
 .singleBlog .singleBlog_container {
@@ -417,9 +413,33 @@ main {
     width: 100%;
 }
 .select_category select {
+    padding: .5rem;
     width: 80%;
     border-radius: 5px;
     border: 1px solid #ccc;
+}
+.error_message {
+    background-color: #f2c5ca;
+    color: rgb(197, 20, 20);
+    width: 80%;
+    border-radius: 18px;
+    padding: 10px 5px;
+    text-align: center;
+}
+
+#closeAlert {
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    aspect-ratio: 1/1;
+    background-color: transparent;
+    font-size: 17px;
+    font-weight: 700;
+    color: #4a4a4a;
+}
+#closeAlert:hover {
+    cursor: pointer;
+    transition: all .4s ease-in-out;
 }
 
 @keyframes bounce {
