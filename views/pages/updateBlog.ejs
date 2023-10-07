@@ -4,9 +4,14 @@
     </div>
     <div class="main_container">
         <div class="blog_img" width="100%">
-            <img src="/images/updateBlog.png" alt="" width="300px">
+            <img src="/storage/<%= blog[0].blog_image %>" alt="" width="300px">
         </div>
         <div class="form_container">
+            <% if (error.length > 0) { %>
+                <div class="error_message">
+                    <p><%= error %></p>
+                </div>
+            <% } %>
             <form action="/saveUpdateBlog/<%= blog[0].id %>" method="POST" enctype="multipart/form-data" id="my-form">
                 <div>
                     <label for="title">Title</label> <br>
@@ -15,6 +20,15 @@
                 <div>
                     <label for="description">Description</label> <br>
                     <textarea name="description" id="description" cols="30" rows="5" placeholder="Description..."><%= blog[0].description %></textarea>
+                </div>
+                <div class="select_category">
+                    <label for="cat">Select Category</label>
+                    <select name="category" id="cat" class="select_cat_btn" multiple>
+                        <!-- <option value="" disabled selected>Select Category</option> -->
+                        <% category.forEach(ele => { %>
+                            <option value="<%= ele.id %>"><%= ele.name_category %></option>
+                        <% }) %>
+                    </select>
                 </div>
                 <div>
                     <label for="title">Image</label> <br>

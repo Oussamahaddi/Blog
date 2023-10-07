@@ -11,7 +11,7 @@ router.post("/blog/saveblog",blogsController.uploadMiddleware, blogsController.s
 router.get("/singleBlog/:id", blogsController.singleBlog);
 router.get("/updateBlog/:id", blogsController.updateBlog);
 router.post("/saveUpdateBlog/:id", blogsController.uploadMiddleware, blogsController.saveUpdateBlog);
-router.post("/deleteBlog/:id", blogsController.deleteBlog);
+router.get("/deleteBlog/:id", blogsController.deleteBlog);
 
 // category
 router.get("/addCategory", categoryController.addCategory);
@@ -19,5 +19,6 @@ router.post("/saveblog", categoryController.saveCategory);
 
 // filter
 router.get("/category/:id", categoryController.filter);
+router.post("/search", categoryController.search);
 
 module.exports = router;

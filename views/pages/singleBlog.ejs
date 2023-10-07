@@ -1,5 +1,12 @@
 
 <div class="singleBlog">
+        
+    <% if (message.length > 0) { console.log(message[0] == "success") %>
+        <div class="alert <%= message[0] == 'success' ? 'alert-success' : 'alert-danger' %>" role="alert">
+            <p><%= message[1] %></p>
+            <button id="closeAlert">X</button>
+        </div>
+    <% } %>
     <div class="singleBlog_container">
         <div class="singleBlog_img" style="width: 100%;">
             <img src="/storage/<%= singleBlog[0].blog_image %>" alt="" width="60%">
@@ -26,3 +33,10 @@
         </div>
     </div>
 </div>
+
+<script>
+    let closeAlert = document.getElementById("closeAlert");
+    closeAlert.addEventListener("click", (e) => {
+        console.log(e.target.parentElement.remove());
+    })
+</script>

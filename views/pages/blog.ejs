@@ -13,6 +13,11 @@
             <img src="/images/addformimg.png" alt="">
         </div>
         <div class="form_container">
+            <% if (error.length > 0) { %>
+                <div class="error_message">
+                    <p><%= error %></p>
+                </div>
+            <% } %>
             <form action="/blog/saveblog" method="POST" enctype="multipart/form-data" id="my-form">
                 <div>
                     <label for="title">Title</label> <br>
@@ -22,18 +27,18 @@
                     <label for="description">Description</label> <br>
                     <textarea name="description" id="description" cols="30" rows="5" placeholder="Description..."></textarea>
                 </div>
-                <div>
-                    <label for="title">Image</label> <br>
-                    <input type="file" name="image" id="image">
-                </div>
                 <div class="select_category">
                     <label for="cat">Select Category</label>
-                    <select name="category" id="cat" class="select_cat_btn" multiple>
+                    <select name="category[]" id="cat" class="select_cat_btn" multiple>
                         <!-- <option value="" disabled selected>Select Category</option> -->
                         <% category.forEach(ele => { %>
                             <option value="<%= ele.id %>"><%= ele.name_category %></option>
                         <% }) %>
                     </select>
+                </div>
+                <div>
+                    <label for="title">Image</label> <br>
+                    <input type="file" name="image" id="image">
                 </div>
                 <div class="add_btn">
                     <button class="button-34">

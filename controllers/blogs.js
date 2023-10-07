@@ -3,11 +3,11 @@
  *  @typedef {import('express').Response} Response
  */
 
-
 const db = require('../helper/db');
 const path = require("path");
 const multer = require("multer");
-const { check, validationResult } = require('express-validator');
+const Joi = require("joi");
+const { validateBlog } = require('../helper/validator');
 const { exit } = require('process');
 
 const menu = [
@@ -47,6 +47,7 @@ exports.index = async (req, res) => {
             menu: menu,
             blogs: blogRows,
             category: categoryRows,
+            message : req.flash("message")
         });
     } catch (err) {
         console.error("Error querying the database:", err);
@@ -62,13 +63,13 @@ exports.singleBlog = async (req, res) => {
             "select c.* from category c inner join blog_category bc on c.id = bc.category_id where bc.blog_id = ?",
             [id]
         );
-        console.log(blogCategories);
         res.render("pages/singleBlog", {
             title : "Single Blog",
             url : req.url,
             menu : menu,
             singleBlog : singleBlog,
-            blogCategories : blogCategories
+            blogCategories : blogCategories,
+            message : req.flash("message")
         });
     } catch(err) {
         console.error("Error querying the database:", err);
@@ -82,7 +83,8 @@ exports.addBlogPage = async (req, res) => {
             title : "Blog",
             url : req.url,
             menu : menu,
-            category : categoryRows
+            category : categoryRows,
+            error : req.flash("error")
         });
     } catch (err) {
         console.error("Error querying the database:", err);
@@ -90,33 +92,51 @@ exports.addBlogPage = async (req, res) => {
     }
 }
 exports.saveBlog = async (req, res) => {
-    console.log(req.body);
+    const {body} = req;
+    let validate = {
+        title : body.title,
+        description : body.description,
+        image : req.file,
+        category : body.category
+    }
     const connection = await db.getConnection();
     try {
-        let data = req.body;
-        const sql = `insert into blogs(title, description, blog_image) values (?, ?, ?)`;
-        const sqlCat = "insert into blog_category(blog_id, category_id) values (?, ?)";
-        await connection.beginTransaction();
-        const [saveBlog] = await db.query(sql, [data.title, data.description, req.file.filename])
-        for (const catId of req.body.category) {
-            const [saveCategory] = await db.query(sqlCat, [saveBlog.insertId, catId]);
+        const {error, value} = validateBlog(validate);
+        if (error) {
+            req.flash("error", error.details[0].message);
+            res.status(502).redirect("/blog");
+        } else {
+            const sql = `insert into blogs(title, description, blog_image) values (?, ?, ?)`;
+            const sqlCat = "insert into blog_category values (?, ?)";
+            await connection.beginTransaction();
+            const [saveBlog] = await db.query(sql, [validate.title, validate.description, validate.image.filename])
+            for (const catId of body.category) {
+                await db.query(sqlCat, [saveBlog.insertId, catId]);
+            }
+            await connection.commit();
+            req.flash("message", ["success", "Blog Add successfully"]);
+            res.redirect("/");
         }
-        res.redirect("/");
     } catch (err) {
         console.error("Error querying the database:", err);
+        await connection.rollback();
         res.status(500).send("Error querying the database");
     }
 }
 exports.updateBlog = async (req, res) => {
+    // res.send(req.flash("message", "update success"))
     try {
         let id = req.params.id;
         const [singleBlog] = await db.query("select * from blogs where id = ?", [id]);
+        const [category] = await db.query("select * from category");
         if (singleBlog.length > 0) {
             res.render("pages/updateBlog", {
                 title : "Update Blog",
                 url : req.url,
                 menu : menu,
-                blog : singleBlog
+                blog : singleBlog,
+                category : category,
+                error : req.flash("error")
             });
         } else {
             res.status(500).send("something wrong");
@@ -128,25 +148,42 @@ exports.updateBlog = async (req, res) => {
     
 }
 exports.saveUpdateBlog = async (req, res) => {
+    const id = req.params.id;
     try {
-        const id = req.params.id;
-        const data = req.body;
         let img = req.file ? req.file.filename : null;
-        if (!img) {
-            const [blogImg] = await db.query("select blog_image from blogs where id = ?", [id]);
-            if (blogImg && blogImg.length > 0) img = data[0].blog_image;
-            updateBlogImg();
-        } else {
-            updateBlogImg();
+        const {body} = req;
+        const validate = {
+            title : body.title,
+            description : body.description,
+            image : "",
+            category : body.category ? body.category : ""
         }
-        res.status(200).redirect("/");
-        async function updateBlogImg() {
-            const sql = "update blogs set title = ?, description = ?, blog_image = ? where id = ?";
-            const [updated] = await db.query(sql, [data.title, data.description, img, id]);
-            if (updated) {
-                console.log("Updated successfully");
-            } else {
-                res.send("something wrong");
+        const {error, value} = validateBlog(validate);
+        if (error) {
+            req.flash("error", error.details[0].message);
+            res.status(502).redirect(`/updateBlog/${id}`);
+        } else {
+            if (!img) {
+                const [blogImg] = await db.query("select blog_image from blogs where id = ?", [id]);
+                if (blogImg && blogImg.length > 0) img = blogImg[0].blog_image;
+            }
+            if (validate.category) {
+                await db.query("delete from blog_category where blog_id = ?", [id]);
+                for (const catId of validate.category) {
+                    await db.query("insert into blog_category values(?, ?)", [id, catId]);
+                }
+            }
+            updateBlogImg();
+            async function updateBlogImg() {
+                const sql = "update blogs set title = ?, description = ?, blog_image = ? where id = ?";
+                const [updated] = await db.query(sql, [validate.title, validate.description, img, id]);
+                console.log(updated);
+                if (updated) {
+                    req.flash('message', ["success", 'Blog updated success'])
+                    res.status(200).redirect(`/singleBlog/${id}`);
+                } else {
+                    res.send("something wrong");
+                }
             }
         }
     }catch (err) {
@@ -154,13 +191,16 @@ exports.saveUpdateBlog = async (req, res) => {
         res.status(500).send("Error querying the database");
     }
 }
-exports.deleteBlog = (req, res) => {
+exports.deleteBlog = async (req, res) => {
     const id = req.params.id;
-    const sql = "delete from blogs where id = ?";
-    db.query(sql, [id], (err, data) => {
-        if (err) throw err;
-        res.json("Blog deleted");
-    })
+    try {
+        const [test] = await db.query("delete from blogs where id = ?", [id]);
+        req.flash("message", ["success", "Blog deleted successfully"]);
+        res.status(200).redirect("/");
+    } catch (err) {
+        console.error("Error querying the database:", err);
+        res.status(500).send("Error querying the database");
+    }
 }
 
 
