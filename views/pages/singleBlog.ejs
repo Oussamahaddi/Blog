@@ -1,7 +1,7 @@
 
 <div class="singleBlog">
         
-    <% if (message.length > 0) { console.log(message[0] == "success") %>
+    <% if (message.length > 0) { %>
         <div class="alert <%= message[0] == 'success' ? 'alert-success' : 'alert-danger' %>" role="alert">
             <p><%= message[1] %></p>
             <button id="closeAlert">X</button>
@@ -37,6 +37,6 @@
 <script>
     let closeAlert = document.getElementById("closeAlert");
     closeAlert.addEventListener("click", (e) => {
-        console.log(e.target.parentElement.remove());
+        e.target.parentElement.remove();
     })
 </script>
