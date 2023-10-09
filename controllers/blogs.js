@@ -6,16 +6,12 @@
 const db = require('../helper/db');
 const path = require("path");
 const multer = require("multer");
-const Joi = require("joi");
 const { validateBlog } = require('../helper/validator');
-const { exit } = require('process');
-
 const menu = [
     { name : "Home", url : "/"},
     { name : "Blog", url : "/blog", },
     { name : "Category", url : "/addCategory" }
 ]
-
 const storage = multer.diskStorage({
     destination : (req, file, cb) => {
         cb(null, "public/storage");
@@ -24,11 +20,9 @@ const storage = multer.diskStorage({
         cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname))
     }
 });
-
 const upload = multer({
     storage : storage
 })
-
 exports.uploadMiddleware = upload.single("image");
 
 /**
@@ -38,7 +32,6 @@ exports.uploadMiddleware = upload.single("image");
  */
 exports.index = async (req, res) => {
     try {
-        // [] i do this to destract elements cuz there is elements and fields and i do it to get only array of elements no need for fields
         const [blogRows] = await db.query("select * from blogs");
         const [categoryRows] = await db.query("select * from category");
         res.render("pages/index", {
@@ -124,7 +117,6 @@ exports.saveBlog = async (req, res) => {
     }
 }
 exports.updateBlog = async (req, res) => {
-    // res.send(req.flash("message", "update success"))
     try {
         let id = req.params.id;
         const [singleBlog] = await db.query("select * from blogs where id = ?", [id]);
@@ -177,7 +169,6 @@ exports.saveUpdateBlog = async (req, res) => {
             async function updateBlogImg() {
                 const sql = "update blogs set title = ?, description = ?, blog_image = ? where id = ?";
                 const [updated] = await db.query(sql, [validate.title, validate.description, img, id]);
-                console.log(updated);
                 if (updated) {
                     req.flash('message', ["success", 'Blog updated success'])
                     res.status(200).redirect(`/singleBlog/${id}`);

@@ -1,6 +1,6 @@
 <main>
     <div class="add_blog_title">
-        <h2>ADD Category</h2>
+        <h2>Update Category</h2>
     </div>
     <a href="javascript:history.back()" class="back">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
@@ -13,19 +13,14 @@
             <img src="/images/addformimg.png" alt="">
         </div>
         <div class="form_container">
-            <% if (error.length > 0) { %>
-                <div class="error_message">
-                    <p><%= error %></p>
-                </div>
-            <% } %>
-            <form action="/saveCategory" method="POST" id="my-form">
+            <form action="/saveUpdateCategory/<%= category[0].id %>" method="POST" id="my-form">
                 <div>
                     <label for="cat_name">Category Name</label> <br>
-                    <input type="text" name="category_name" id="cat_name" placeholder="Category Name">
+                    <input type="text" name="category_name" value="<%= category[0].name_category %>" id="cat_name" placeholder="Category Name">
                 </div>
                 <div class="add_btn">
                     <button class="button-34">
-                        Add Category
+                        Update Category
                     </button>
                 </div>
             </form>

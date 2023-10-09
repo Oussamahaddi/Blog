@@ -8,7 +8,10 @@ const blogSchema = Joi.object({
     image : Joi.required(),
     category : Joi.required()
 })
+const categorySchema = Joi.object({
+    category_name : Joi.string().required()
+})
 
 exports.validateBlog = validator(blogSchema);
-
+exports.validateCategory = validator(categorySchema);
 
